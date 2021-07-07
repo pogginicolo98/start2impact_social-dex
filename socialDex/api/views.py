@@ -11,6 +11,8 @@ def posts(request):
         response[f'{post.pk}'] = {
             'datetime': post.datetime,
             'content': post.content,
-            'author': f'{post.user.first_name} {post.user.last_name}'
+            'author': f'{post.user.first_name} {post.user.last_name}',
+            'hash': post.hash,
+            'tx_id': post.tx_id
         }
     return JsonResponse(response)
