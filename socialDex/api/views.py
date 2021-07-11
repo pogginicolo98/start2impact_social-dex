@@ -1,39 +1,30 @@
-# from django.shortcuts import render
-from django.http import JsonResponse
 from api.models import Post
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from api.serializers import PostModelSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
-def posts(request):
-    response = {}
-    posts = Post.objects.filter().order_by('-datetime')
+class PostListCreateAPIView(APIView):
+    """
+    Retrieve a list of all 'Post' instances and create a new one.
+    """
 
-    for post in posts:
-        response[f'{post.pk}'] = {
-            'datetime': post.datetime,
-            'content': post.content,
-            'author': f'{post.user.first_name} {post.user.last_name}',
-            'hash': post.hash,
-            'tx_id': post.tx_id
-        }
-    return JsonResponse(response)
+    def get(self, request):
+        # Return a list of all 'Posts'
 
+        posts = Post.objects.all()
+        serializer = PostModelSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-class NewPost(APIView):
-    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        # Create a new 'Post' with received data and then write it on chain
 
-    def new_post(self, request):
-        if request.method == 'POST':
-            user = request.user
-            content = request.POST.get('content', None)
-            print(f'il messaggio è: {content}\nuser è: {user}')
-            return Response(data={'status': True})
-            # if user and content:
-            #     post = Post(user=user, content=content)
-            #     post.save()
-            #     posts(request)
-            # else:
-            #     return JsonResponse({'error': 'not_enough_data', 'request_data': request.data})
-        return JsonResponse({'error': 'not_post'})
+        serializer = PostModelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            post = get_object_or_404(Post, pk=serializer.data['id'])
+            post.write_on_chain()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

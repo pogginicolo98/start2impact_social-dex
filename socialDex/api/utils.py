@@ -3,6 +3,8 @@ from web3 import Web3
 
 
 def send_transaction(message):
+    # Create a new Ethereum transaction and send it on chain
+
     w3 = Web3(Web3.HTTPProvider(password.network_url))
     address = password.address
     private_key = password.private_key
@@ -12,7 +14,7 @@ def send_transaction(message):
     signed_tx = w3.eth.account.signTransaction(dict(
         nonce=nonce,
         gasPrice=gas_price,
-        gas=30000,
+        gas=300000,
         to='0x0000000000000000000000000000000000000000',
         value=value,
         data=message.encode('utf-8')
