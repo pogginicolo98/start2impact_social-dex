@@ -1,18 +1,30 @@
-# from django.shortcuts import render
-from django.http import JsonResponse
 from api.models import Post
+from api.serializers import PostModelSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
-def posts(request):
-    response = {}
-    posts = Post.objects.filter().order_by('-datetime')
+class PostListCreateAPIView(APIView):
+    """
+    Retrieve a list of all 'Post' instances and create a new one.
+    """
 
-    for post in posts:
-        response[f'{post.pk}'] = {
-            'datetime': post.datetime,
-            'content': post.content,
-            'author': f'{post.user.first_name} {post.user.last_name}',
-            'hash': post.hash,
-            'tx_id': post.tx_id
-        }
-    return JsonResponse(response)
+    def get(self, request):
+        # Return a list of all 'Posts'
+
+        posts = Post.objects.all()
+        serializer = PostModelSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        # Create a new 'Post' with received data and then write it on chain
+
+        serializer = PostModelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            post = get_object_or_404(Post, pk=serializer.data['id'])
+            post.write_on_chain()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from api.utils import send_transaction
 import hashlib
 
@@ -22,11 +21,14 @@ class Post(BaseModel):
 
     Actual network: Ropsten.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=60)
     datetime = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
-    hash = models.CharField(max_length=32, blank=True, null=True)
+    hash = models.CharField(max_length=64, blank=True, null=True)
     tx_id = models.CharField(max_length=66, blank=True, null=True)  # max_length: see the structure of the transaction id of the network used.
+
+    def __str__(self):
+        return f"{self.user} | {self.datetime}"
 
     def write_on_chain(self):
         self.hash = hashlib.sha256(self.content.encode('utf-8')).hexdigest()
