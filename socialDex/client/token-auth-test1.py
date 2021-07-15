@@ -21,14 +21,14 @@ def client():
 
     # Step 1
     # ------
-    # credentials = password.CREDENTIALS_ADMIN
-    # response = requests.post('http://127.0.0.1:8000/api/rest-auth/login/', data=credentials)
+    credentials = password.CREDENTIALS_ADMIN
+    response = requests.post('http://127.0.0.1:8000/api/rest-auth/login/', data=credentials)
 
     # Step 2
     # ------
-    token_h = password.TOKEN_ADMIN
-    headers = {'Authorization': token_h}
-    response = requests.get('http://127.0.0.1:8000/api/posts/', headers=headers)
+    # token_h = password.TOKEN_ADMIN
+    # headers = {'Authorization': token_h}
+    # response = requests.get('http://127.0.0.1:8000/api/posts/', headers=headers)
 
     # Output
     # ------
