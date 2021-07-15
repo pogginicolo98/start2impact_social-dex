@@ -1,5 +1,6 @@
-from django.db import models
 from api.utils import send_transaction
+from django.contrib.auth.models import User
+from django.db import models
 import hashlib
 
 
@@ -21,7 +22,7 @@ class Post(BaseModel):
 
     Actual network: Ropsten.
     """
-    user = models.CharField(max_length=60)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     hash = models.CharField(max_length=64, blank=True, null=True)
@@ -31,6 +32,8 @@ class Post(BaseModel):
         return f"{self.user} | {self.datetime}"
 
     def write_on_chain(self):
+        # Automatically called when a new 'Post' is created (see api/signals.py)
+
         self.hash = hashlib.sha256(self.content.encode('utf-8')).hexdigest()
         self.tx_id = send_transaction(self.hash)
         self.save()

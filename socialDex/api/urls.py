@@ -1,7 +1,7 @@
-from api.views import PostListCreateAPIView
+from api.views import new_post, posts
 from django.urls import path
 
-
 urlpatterns = [
-    path('posts/', PostListCreateAPIView.as_view(), name='post-list'),
+    path('posts/', posts, name='post-list'),
+    path('new-post/', new_post, name='new-post'),
 ]

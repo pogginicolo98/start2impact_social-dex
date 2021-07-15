@@ -1,11 +1,13 @@
 from api.models import Post
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 
-class PostModelSerializer(ModelSerializer):
+class PostModelSerializer(serializers.ModelSerializer):
     """
     ModelSerializer for 'Post' instance.
     """
+
+    user = serializers.StringRelatedField()
 
     class Meta:
         model = Post
