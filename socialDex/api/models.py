@@ -37,3 +37,23 @@ class Post(BaseModel):
         self.hash = hashlib.sha256(self.content.encode('utf-8')).hexdigest()
         self.tx_id = send_transaction(self.hash)
         self.save()
+
+
+class PostReport(BaseModel):
+    """
+    Users activity report.
+    A report that tracks how many times a user retrieves a list of all instances of "Post"
+    and how many 'Posts' he created.
+    The report is made once a day.
+
+    Sample report:
+    YYYY-mm-dd
+    Mario has retrieved a posts list 3 times and has created a new post 0 times.
+    Luigi has retrieved a posts list 1 times and has created a new post 1 times.
+    """
+
+    report = models.TextField(null=True, blank=True)
+    date = models.DateField()
+
+    def __str__(self):
+        return str(self.date)

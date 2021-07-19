@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from celery.schedules import crontab
 import password
 from pathlib import Path
 
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Rome'
 
 USE_I18N = True
 
@@ -146,3 +147,13 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = None
 ACCOUNT_EMAIL_REQUIRED = (True)
+
+# Settings for Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BEAT_SCHEDULE = {
+ 'users-activity-report': {
+       'task': 'api.tasks.users_activity_report',
+       'schedule': crontab(minute=10, hour=0),  # Executed once a day at 00:05
+    }
+}
