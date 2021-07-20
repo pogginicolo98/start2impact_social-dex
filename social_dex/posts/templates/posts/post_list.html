@@ -1,0 +1,28 @@
+<!-- Post list page -->
+{% extends 'base.html' %}
+
+<!-- Dynamic title -->
+{% block head_title %}Post | {{ block.super }}{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <div class="card my-3">
+        <div class="card-header py-1">
+          <p class="text-muted mb-0">{{ post.datetime|date:'d M Y' }}</p>
+        </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-12">
+            <p class="mb-0"><a href="#"><strong>{{ post.user }}</strong></a></p>
+          </div>
+          <div class="col-lg-10 col-12">
+            <p class="my-0">{{ post.content|linebreaks }}</p>
+            <hr>
+            <a href="https://ropsten.etherscan.io/tx/{{ post.tx_id }}">Transaction</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
