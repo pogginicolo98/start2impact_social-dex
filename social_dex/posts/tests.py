@@ -1,5 +1,6 @@
 import json
 from django.contrib.auth.models import User
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -106,3 +107,40 @@ class NewPostTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(json_response['user'], 'testcase1')
         self.assertEqual(json_response['content'], 'Test')
+
+
+class HomepageTests(TestCase):
+    """
+    HomepageView tests.
+
+    A class that perform the following tests:
+    1 - Url by name
+    """
+
+    def test_homepage_url_by_name(self):
+        url = reverse('homepage-view')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class PostListCreateViewTests(TestCase):
+    """
+    PostListCreateView tests.
+
+    A class that perform the following tests:
+    1 - Url by name
+    """
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='testcase1', password='Change_me_123!')
+
+    def test_redirects_to_test_page_on_not_authenticated(self):
+        url = reverse('post-list-create')
+        response = self.client.get(url)
+        self.assertRedirects(response, reverse('login') + '?next=' + url)
+
+    def test_redirects_to_test_page_on_authenticated(self):
+        self.client.login(username='testcase1', password='Change_me_123!')
+        url = reverse('post-list-create')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
