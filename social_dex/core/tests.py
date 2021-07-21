@@ -12,9 +12,10 @@ class HomepageViewTestCase(TestCase):
     - test_homepage_url_by_name(): Test url by name.
     """
 
+    url = reverse('homepage-view')
+
     def test_homepage_url_by_name(self):
-        url = reverse('homepage-view')
-        response = self.client.get(url)
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
@@ -45,5 +46,24 @@ class UserListViewTestCase(TestCase):
 
     def test_user_list_url_by_name_authenticated(self):
         self.client.login(username='testcase2', password='Change_me_123!')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class UserDetailViewTestCase(TestCase):
+    """
+    UserDetailView tests.
+
+    tests:
+    - test_user_detail_url_by_name(): Test url by name.
+    """
+
+    url = reverse('user-detail', kwargs={'pk': 1})
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='testcase1', password='Change_me_123!')
+
+    def test_user_detail_url_by_name(self):
+
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
