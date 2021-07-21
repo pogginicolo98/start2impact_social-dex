@@ -1,22 +1,21 @@
-<!-- Post list page -->
+<!-- User list page -->
 {% extends 'base.html' %}
 
 <!-- Dynamic title -->
 {% block head_title %}Users | {{ block.super }}{% endblock %}
 
 {% block content %}
-  <!-- Posts list -->
-  {% for user in users %}
-    <div class="card my-3">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-2 col-12">
-            <p class="mb-0"><a href="#"><strong>{{ user }}</strong></a></p>
-            <hr>
-            <p class="my-0">{{ user.post_set.count }}</p>
+  <!-- User list -->
+  <div class="row">
+    {% for user in users %}
+      <div class="col-12 col-lg-3 mt-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ user }}</h5>
+            <p class="card-text">Post: {{ user.post_set.count }}</p>
           </div>
         </div>
       </div>
-    </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 {% endblock %}

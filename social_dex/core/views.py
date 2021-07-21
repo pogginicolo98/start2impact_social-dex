@@ -14,9 +14,11 @@ class HomepageView(TemplateView):
 
 class UserListView(StaffMixin, ListView):
     """
-    ???
+    User view to list all users and view the amount of posts created by each user.
+
+    * Only staff users can view the user list.
     """
 
     model = User
-    template_name = 'core/user_list.html'
     context_object_name = 'users'
+    template_name = 'core/user_list.html'

@@ -29,7 +29,7 @@ class RESTAuthTestCase(APITestCase):
         json_response = json.loads(response.content)
         token = f"Token {json_response['key']}"
         headers = {'Authorization': token}
-        response = self.client.get('http://127.0.0.1:8000/api/posts/', headers=headers)
+        response = self.client.get('http://127.0.0.1:8000/post/api/posts/', headers=headers)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_registration(self):
@@ -43,7 +43,7 @@ class RESTAuthTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
-class PostsTestCase(APITestCase):
+class PostsAPITestCase(APITestCase):
     """
     posts() view function test case.
     view function that provides `list()` action.
@@ -66,15 +66,15 @@ class PostsTestCase(APITestCase):
 
     def test_post_list_not_authenticated(self):
         self.client.force_authenticate(user=None)
-        response = self.client.get(self.list_url)  # Ex. URL: http://127.0.0.1/api/posts/
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_post_list_authenticated(self):
-        response = self.client.get(self.list_url)  # Ex. URL: http://127.0.0.1/api/posts/
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class NewPostTestCase(APITestCase):
+class NewPostAPITestCase(APITestCase):
     """
     new_post() view function test case.
     view function that provides `create()` action.
@@ -96,27 +96,27 @@ class NewPostTestCase(APITestCase):
 
     def test_post_create_not_authenticated(self):
         self.client.force_authenticate(user=None)
-        response = self.client.post(self.create_url)  # Ex. URL: http://127.0.0.1/api/new-post/
+        response = self.client.post(self.create_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_post_create_authenticated(self):
         data = {
             'content': 'Test'
         }
-        response = self.client.post(self.create_url, data=data)  # Ex. URL: http://127.0.0.1/api/new-post/
+        response = self.client.post(self.create_url, data=data)
         json_response = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(json_response['user'], 'testcase1')
         self.assertEqual(json_response['content'], 'Test')
 
 
-class PostListCreateViewTests(TestCase):
+class PostListCreateViewTestCase(TestCase):
     """
     PostListCreateView tests.
 
     tests:
-    - test_post_list_create_url_by_name_not_authenticated(): Test url by name without authentication.
-    - test_post_list_create_url_by_name_authenticated(): Test url by name with authentication.
+    - test_post_list_create_url_by_name_not_authenticated(): Test url by name by an unauthenticated user.
+    - test_post_list_create_url_by_name_authenticated(): Test url by name by an authenticated user.
     - test_post_list_create_POST_not_authenticated(): Test 'post()' action by an unauthenticated user.
     - test_post_list_create_POST_authenticated(): Test 'post()' action by an authenticated user.
     """
