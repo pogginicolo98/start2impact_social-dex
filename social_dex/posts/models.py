@@ -1,6 +1,7 @@
 import hashlib
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from posts.wallet.utils import send_transaction
 
 
@@ -37,6 +38,11 @@ class Post(BaseModel):
         self.hash = hashlib.sha256(self.content.encode('utf-8')).hexdigest()
         self.tx_id = send_transaction(self.hash)
         self.save()
+
+    def get_absolute_url(self):
+        # Necessary for PostsListCreateView
+
+        return reverse('post-list-create')
 
 
 class PostReport(BaseModel):

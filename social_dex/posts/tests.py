@@ -1,9 +1,12 @@
 import json
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
+from posts.models import Post
 
 
 class RESTAuthTestCase(APITestCase):
@@ -106,3 +109,58 @@ class NewPostTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(json_response['user'], 'testcase1')
         self.assertEqual(json_response['content'], 'Test')
+
+
+class HomepageTests(TestCase):
+    """
+    HomepageView tests.
+
+    tests:
+    - test_homepage_url_by_name(): Test url by name.
+    """
+
+    def test_homepage_url_by_name(self):
+        url = reverse('homepage-view')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class PostListCreateViewTests(TestCase):
+    """
+    PostListCreateView tests.
+
+    tests:
+    - test_post_list_create_url_by_name_not_authenticated(): Test url by name without authentication.
+    - test_post_list_create_url_by_name_authenticated(): Test url by name with authentication.
+    - test_post_list_create_POST_not_authenticated(): Test 'post()' action by an unauthenticated user.
+    - test_post_list_create_POST_authenticated(): Test 'post()' action by an authenticated user.
+    """
+
+    url = reverse('post-list-create')
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='testcase1', password='Change_me_123!')
+
+    def test_post_list_create_url_by_name_not_authenticated(self):
+        response = self.client.get(self.url)
+        self.assertRedirects(response, reverse('login') + '?next=' + self.url)
+
+    def test_post_list_create_url_by_name_authenticated(self):
+        self.client.login(username='testcase1', password='Change_me_123!')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_post_list_create_POST_not_authenticated(self):
+        data = {'content': 'Test message'}
+        response = self.client.post(self.url, data=data)
+        posts = Post.objects.all().count()
+        self.assertEqual(posts, 0)
+        self.assertRedirects(response, reverse('login') + '?next=' + self.url)
+
+    def test_post_list_create_POST_authenticated(self):
+        data = {'content': 'Test message'}
+        self.client.login(username='testcase1', password='Change_me_123!')
+        response = self.client.post(self.url, data=data)
+        post = Post.objects.get(pk=1)
+        self.assertEqual(post.content, data['content'])
+        self.assertEqual(post.user.username, 'testcase1')
