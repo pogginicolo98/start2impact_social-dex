@@ -11,8 +11,8 @@
       <div class="col-12 col-lg-3 mt-3">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ user }}</h5>
-            <p class="card-text">Post: {{ user.post_set.count }}</p>
+            <a href="{% url 'user-detail' pk=user.pk %}"><h5 class="card-title">@{{ user }}</h5></a>
+            <p class="card-subtitle text-muted">Post: {{ user.post_set.count }}</p>
           </div>
         </div>
       </div>
