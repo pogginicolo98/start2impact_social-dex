@@ -5,7 +5,8 @@ from http import HTTPStatus
 
 class SignUpViewTests(TestCase):
     """
-    (view) Signup_view tests.
+    Signup_view test case.
+    View function that provides `create()` action.
 
     A class that perform the following tests:
     1 - Url by name
