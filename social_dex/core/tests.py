@@ -6,7 +6,8 @@ from rest_framework import status
 
 class HomepageViewTestCase(TestCase):
     """
-    HomepageView tests.
+    HomepageView test case.
+    Generic TemplateView that render a template.
 
     tests:
     - test_homepage_url_by_name(): Test url by name.
@@ -21,7 +22,8 @@ class HomepageViewTestCase(TestCase):
 
 class UserListViewTestCase(TestCase):
     """
-    UserListView tests.
+    UserListView test case.
+    Generic ListView that provide 'list()' action.
 
     tests:
     - test_user_list_url_by_name_not_authenticated(): Test url by name by an unauthenticated user.
@@ -52,16 +54,17 @@ class UserListViewTestCase(TestCase):
 
 class UserDetailViewTestCase(TestCase):
     """
-    UserDetailView tests.
+    UserDetailView test case.
+    Generic DetailView that provide 'retrieve()' action.
 
     tests:
-    - test_user_detail_url_by_name(): Test url by name.
+    - test_user_detail_url_by_name(): Test url by name and 'retrieve()' action.
     """
 
     url = reverse('user-detail', kwargs={'pk': 1})
 
     def setUp(self):
-        self.user = User.objects.create_user(username='testcase1', password='Change_me_123!')
+        self.user = User.objects.create_user(username='testcase', password='Change_me_123!')
 
     def test_user_detail_url_by_name(self):
 

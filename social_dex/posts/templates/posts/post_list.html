@@ -27,7 +27,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-lg-2 col-12">
-            <p class="mb-0"><a href="#"><strong>{{ post.user }}</strong></a></p>
+            <p class="mb-0"><a href="{% url 'user-detail' pk=post.user.pk  %}"><strong>{{ post.user }}</strong></a></p>
             <hr>
             <a href="https://ropsten.etherscan.io/tx/{{ post.tx_id }}">Transaction</a>
           </div>
