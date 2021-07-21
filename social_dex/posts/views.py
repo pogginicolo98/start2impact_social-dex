@@ -1,17 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from posts.forms import PostModelForm
 from posts.models import Post
-
-
-class HomepageView(TemplateView):
-    """
-    Temporary homepage
-    """
-
-    template_name = 'posts/homepage.html'
 
 
 class PostListCreateView(LoginRequiredMixin, CreateView):

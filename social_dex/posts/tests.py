@@ -1,6 +1,5 @@
 import json
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
@@ -109,20 +108,6 @@ class NewPostTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(json_response['user'], 'testcase1')
         self.assertEqual(json_response['content'], 'Test')
-
-
-class HomepageTests(TestCase):
-    """
-    HomepageView tests.
-
-    tests:
-    - test_homepage_url_by_name(): Test url by name.
-    """
-
-    def test_homepage_url_by_name(self):
-        url = reverse('homepage-view')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class PostListCreateViewTests(TestCase):
