@@ -29,6 +29,11 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'post-list-create' %}">Post</a>
             </li>
+            {% if request.user.is_staff %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'user-list' %}">Users</a>
+              </li>
+            {% endif %}
             <!-- Dropdown menu with change password and logout features -->
             {% if request.user.is_authenticated %}
               <li class="nav-item dropdown">

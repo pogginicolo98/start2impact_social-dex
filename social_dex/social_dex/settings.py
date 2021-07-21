@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'accounts',
+    'core',
     'posts',
 ]
 
@@ -75,6 +76,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'templates',
             BASE_DIR / 'accounts/templates',
+            BASE_DIR / 'core/templates',
             BASE_DIR / 'posts/templates',
         ],
         'APP_DIRS': True,
