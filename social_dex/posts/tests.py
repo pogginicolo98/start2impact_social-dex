@@ -154,9 +154,9 @@ class PostListCreateViewTestCase(TestCase):
         self.assertEqual(post.user.username, 'testcase')
 
 
-class PostLatestListAPIViewTestCase(APITestCase):
+class LatestPostListAPIViewTestCase(APITestCase):
     """
-    PostLatestListAPIView test case.
+    LatestPostListAPIView test case.
     Generic APIView that provides `list()` action.
 
     tests:

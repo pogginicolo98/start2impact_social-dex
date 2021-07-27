@@ -15,15 +15,30 @@ from rest_framework import generics
 def posts(request):
     """
     Allowed methods: GET.
-    Retrieve a list of all 'Post' instances.
+    Retrieve a list of all 'Post' instances
+    or retrieve the number of posts that contain a keyword passed as 'search' parameter.
 
-    * Only authenticated users can request data.
+    * Only authenticated users can retrieve data.
     """
 
-    post_list = Post.objects.all().order_by('-id')
-    serializer = PostModelSerializer(post_list, many=True)
-    posts_api_view_called.send(sender='posts', request=request)  # Send signal in order to register user's activity
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if 'search' in request.GET:
+        # URL contains 'search'
+        querystring = request.GET.get('search')
+        if len(querystring) == 0:
+            context = {
+                'error': "'search' parameter must be not null"
+            }
+            return Response(context, status=status.HTTP_400_BAD_REQUEST)
+        number_of_posts = Post.objects.filter(content__icontains=querystring).count()
+        context = {
+            'posts found': number_of_posts
+        }
+        return Response(context, status=status.HTTP_200_OK)
+    else:
+        post_list = Post.objects.all().order_by('-id')
+        serializer = PostModelSerializer(post_list, many=True)
+        posts_api_view_called.send(sender='posts', request=request)  # Send signal in order to register user's activity
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -44,7 +59,7 @@ def new_post(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PostLatestListAPIView(generics.ListAPIView):
+class LatestPostListAPIView(generics.ListAPIView):
     """
     An APIView that provides 'list()' action.
     Retrieve a list with all 'Posts' published in the last hour.
