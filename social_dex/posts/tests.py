@@ -53,15 +53,20 @@ class PostsAPITestCase(APITestCase):
     tests:
     - test_post_list_not_authenticated(): Test 'list()' action by an unauthenticated user.
     - test_post_list_authenticated(): Test 'list()' action by an authenticated user.
+    - test_search_post_null_search_param(): Test 'list()' action with invalid 'search' param.
+    - test_search_post_search_param(): Test 'list()' action with valid 'search' param.
     """
 
     list_url = reverse('post-list')
-    create_url = reverse('new-post')
 
     def setUp(self):
         self.user = User.objects.create_user(username='testcase', password='Change_me_123!')
         self.token = Token.objects.create(user=self.user)
         self.api_authentication()
+        Post.objects.create(
+            user=self.user,
+            content='test message'
+        )
 
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
@@ -75,6 +80,16 @@ class PostsAPITestCase(APITestCase):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_search_post_null_search_param(self):
+        response = self.client.get(self.list_url + '?search=')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_search_post_search_param(self):
+        response = self.client.get(self.list_url + '?search=test')
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json_response['posts found'], 1)
+
 
 class NewPostAPITestCase(APITestCase):
     """
@@ -83,6 +98,7 @@ class NewPostAPITestCase(APITestCase):
 
     tests:
     - test_post_create_not_authenticated(): Test 'create()' action by an unauthenticated user.
+    - test_post_create_bad_content(): Test 'create()' action with an invalid 'content'.
     - test_post_create_authenticated(): Test 'create()' action by an authenticated user.
     """
 
@@ -100,6 +116,13 @@ class NewPostAPITestCase(APITestCase):
         self.client.force_authenticate(user=None)
         response = self.client.post(self.create_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_post_create_bad_content(self):
+        data = {
+            'content': 'message containing the word hack'
+        }
+        response = self.client.post(self.create_url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_post_create_authenticated(self):
         data = {
@@ -121,6 +144,7 @@ class PostListCreateViewTestCase(TestCase):
     - test_post_list_create_url_by_name_not_authenticated(): Test url by name by an unauthenticated user.
     - test_post_list_create_url_by_name_authenticated(): Test url by name by an authenticated user.
     - test_post_list_create_new_post_not_authenticated(): Test 'post()' action by an unauthenticated user.
+    - test_post_list_create_new_post_bad_content(): Test 'post()' action with an invalid 'content'.
     - test_post_list_create_new_post_authenticated(): Test 'post()' action by an authenticated user.
     """
 
@@ -145,10 +169,16 @@ class PostListCreateViewTestCase(TestCase):
         self.assertEqual(posts, 0)
         self.assertRedirects(response, reverse('login') + '?next=' + self.url)
 
+    def test_post_list_create_new_post_bad_content(self):
+        data = {'content': 'message containing the word hack'}
+        self.client.login(username='testcase', password='Change_me_123!')
+        response = self.client.post(self.url, data=data)
+        self.assertEquals(response.context['form'].errors['content'], ["forbidden word: 'hack'"])
+
     def test_post_list_create_new_post_authenticated(self):
         data = {'content': 'Test message'}
         self.client.login(username='testcase', password='Change_me_123!')
-        response = self.client.post(self.url, data=data)
+        self.client.post(self.url, data=data)
         post = Post.objects.get(pk=1)
         self.assertEqual(post.content, data['content'])
         self.assertEqual(post.user.username, 'testcase')
@@ -163,18 +193,18 @@ class LatestPostListAPIViewTestCase(APITestCase):
     - test_status_list(): Test 'list()' action.
     """
 
-    create_url = reverse('new-post')
     list_url = reverse('post-latest')
 
     def setUp(self):
         self.user = User.objects.create_user(username='testcase', password='Change_me_123!')
-        self.token = Token.objects.create(user=self.user)
-        self.api_authentication()
-        self.client.post(self.create_url, data={'content': 'more than 1 hours ago'})
-        self.client.post(self.create_url, data={'content': 'less than 1 hour ago'})
-
-    def api_authentication(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        Post.objects.create(
+            user=self.user,
+            content='more than 1 hours ago'
+        )
+        Post.objects.create(
+            user=self.user,
+            content='less than 1 hour ago'
+        )
 
     def test_post_latest_list(self):
         two_hour_ago = timezone.now() - timedelta(hours=2)
