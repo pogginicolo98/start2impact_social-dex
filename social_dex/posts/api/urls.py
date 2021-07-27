@@ -1,8 +1,8 @@
 from django.urls import path
-from posts.api.views import new_post, posts, PostLatestListAPIView
+from posts.api.views import LatestPostListAPIView, new_post, posts
 
 urlpatterns = [
     path('posts/', posts, name='post-list'),
     path('new-post/', new_post, name='new-post'),
-    path('latest/', PostLatestListAPIView.as_view(), name='post-latest'),
+    path('latest/', LatestPostListAPIView.as_view(), name='post-latest'),
 ]

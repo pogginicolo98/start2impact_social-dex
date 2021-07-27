@@ -29,6 +29,9 @@ class Post(BaseModel):
     hash = models.CharField(max_length=64, blank=True, null=True)
     tx_id = models.CharField(max_length=66, blank=True, null=True)  # max_length: see the structure of the transaction id of the network used.
 
+    class Meta:
+        ordering = ['-datetime']
+
     def __str__(self):
         return f"{self.user} | {self.datetime}"
 

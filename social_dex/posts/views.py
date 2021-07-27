@@ -20,7 +20,7 @@ class PostListCreateView(LoginRequiredMixin, CreateView):
         # Get context in order to list all 'Post' instances
 
         context = super().get_context_data(**kwargs)
-        context["posts"] = self.model.objects.all().order_by('-datetime')
+        context["posts"] = self.model.objects.all()
         return context
 
     def form_valid(self, form):
