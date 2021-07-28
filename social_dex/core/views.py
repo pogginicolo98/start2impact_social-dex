@@ -1,16 +1,7 @@
 from core.mixins import StaffMixin
 from django.contrib.auth.models import User
-from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-
-
-class HomepageView(TemplateView):
-    """
-    Homepage view.
-    """
-
-    template_name = 'core/homepage.html'
 
 
 class UserListView(StaffMixin, ListView):

@@ -28,9 +28,9 @@ class PostModelForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
 
         # conditions to be met for the username length
-        if "hack" in content.lower():
+        if content and "hack" in content.lower():
             self._errors['content'] = self.error_class([
-                "forbidden word: 'hack'"])
+                "Forbidden word: 'hack'"])
 
         # return any errors if found
         return self.cleaned_data

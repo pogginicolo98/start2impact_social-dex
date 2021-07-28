@@ -9,10 +9,10 @@
   <div class="row">
     {% for user in users %}
       <div class="col-12 col-lg-3 mt-3">
-        <div class="card">
+        <div class="card bg-platinum">
           <div class="card-body">
-            <a href="{% url 'user-detail' pk=user.pk %}"><h5 class="card-title">@{{ user }}</h5></a>
-            <p class="card-subtitle text-muted">Post: {{ user.post_set.count }}</p>
+            <a href="{% url 'user-detail' pk=user.pk %}"><h5 class="card-title mb-2">@{{ user }}</h5></a>
+            <p class="card-subtitle text-muted">Post created: {{ user.post_set.count }}</p>
           </div>
         </div>
       </div>

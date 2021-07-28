@@ -28,5 +28,5 @@ urlpatterns = [
     path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
 
     path('', include('core.urls')),
-    path('post/', include('posts.urls')),
+    path('', include('posts.urls')),
 ]

@@ -31,7 +31,7 @@ class RESTAuthTestCase(APITestCase):
         json_response = json.loads(response.content)
         token = f"Token {json_response['key']}"
         headers = {'Authorization': token}
-        response = self.client.get('http://127.0.0.1:8000/post/api/posts/', headers=headers)
+        response = self.client.get(reverse('post-list'), headers=headers)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_registration(self):
