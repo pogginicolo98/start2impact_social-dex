@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 
 class HomepageView(TemplateView):
     """
-    Temporary homepage
+    Homepage view.
     """
 
     template_name = 'core/homepage.html'
