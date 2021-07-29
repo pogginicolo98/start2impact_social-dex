@@ -26,7 +26,7 @@ def alert_different_ip(sender, request, user, **kwargs):
     ip, is_routable = get_client_ip(request)
     user_activity = UserLoginActivity.objects.get(user=user)
 
-    if user_activity.last_login_IP == ip or None:
+    if user_activity.last_login_IP == ip or user_activity.last_login_IP is None:
         user_activity.alert = False
     else:
         user_activity.alert = True

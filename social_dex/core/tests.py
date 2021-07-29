@@ -4,22 +4,6 @@ from django.urls import reverse
 from rest_framework import status
 
 
-class HomepageViewTestCase(TestCase):
-    """
-    HomepageView test case.
-    Generic TemplateView that render a template.
-
-    tests:
-    - test_homepage_url_by_name(): Test url by name.
-    """
-
-    url = reverse('homepage-view')
-
-    def test_homepage_url_by_name(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-
 class UserListViewTestCase(TestCase):
     """
     UserListView test case.
