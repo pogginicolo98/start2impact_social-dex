@@ -18,15 +18,19 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    # Administrator panel
     path('admin/', admin.site.urls),
 
+    # Session authentication
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 
+    # Token authentication
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/rest-auth/', include('rest_auth.urls')),
     path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
 
+    # Apps
     path('', include('core.urls')),
     path('', include('posts.urls')),
 ]
