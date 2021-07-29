@@ -173,7 +173,7 @@ class PostListCreateViewTestCase(TestCase):
         data = {'content': 'message containing the word hack'}
         self.client.login(username='testcase', password='Change_me_123!')
         response = self.client.post(self.url, data=data)
-        self.assertEquals(response.context['form'].errors['content'], ["forbidden word: 'hack'"])
+        self.assertEquals(response.context['form'].errors['content'], ["Forbidden word: 'hack'"])
 
     def test_post_list_create_new_post_authenticated(self):
         data = {'content': 'Test message'}
