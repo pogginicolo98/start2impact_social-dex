@@ -9,7 +9,7 @@ class UserListViewTestCase(TestCase):
     UserListView test case.
     Generic ListView that provide 'list()' action.
 
-    tests:
+    Tests:
     - test_user_list_url_by_name_not_authenticated(): Test url by name by an unauthenticated user.
     - test_user_list_url_by_name_random_user(): Test url by name by a non-staff user.
     - test_user_list_url_by_name_authenticated(): Test url by name by a staff user.
@@ -51,6 +51,5 @@ class UserDetailViewTestCase(TestCase):
         self.user = User.objects.create_user(username='testcase', password='Change_me_123!')
 
     def test_user_detail_url_by_name(self):
-
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

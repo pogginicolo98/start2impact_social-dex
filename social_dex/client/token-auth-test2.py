@@ -5,7 +5,7 @@ from sys import path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 path.insert(0, str(BASE_DIR))
-from social_dex import password
+import password
 
 
 def client():
@@ -21,14 +21,14 @@ def client():
 
     # Step 1
     # ------
-    # data = password.DATA_USER
-    # response = requests.post('http://127.0.0.1:8000/api/rest-auth/registration/', data=data)
+    data = password.DATA_USER
+    response = requests.post('http://127.0.0.1:8000/api/rest-auth/registration/', data=data)
 
     # Step 2
     # ------
-    token_h = password.TOKEN_USER
-    headers = {'Authorization': token_h}
-    response = requests.get('http://127.0.0.1:8000/api/posts/', headers=headers)
+    # token_h = password.TOKEN_USER
+    # headers = {'Authorization': token_h}
+    # response = requests.get('http://127.0.0.1:8000/api/posts/', headers=headers)
 
     # Output
     # ------

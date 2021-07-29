@@ -5,14 +5,15 @@ from http import HTTPStatus
 
 class SignUpViewTests(TestCase):
     """
-    Signup_view test case.
+    signup_view test case.
     View function that provides `create()` action.
 
-    A class that perform the following tests:
-    1 - Url by name
+    Tests:
+    - test_signup_view_url_by_name(): Test url by name.
     """
 
+    url = reverse('signup_view')
+
     def test_signup_view_url_by_name(self):
-        url = reverse('signup_view')
-        response = self.client.get(url)
+        response = self.client.get(self.url)
         self.assertEquals(response.status_code, HTTPStatus.OK)

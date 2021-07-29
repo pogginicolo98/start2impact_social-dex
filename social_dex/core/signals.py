@@ -9,7 +9,7 @@ from ipware import get_client_ip
 @receiver(post_save, sender=User)
 def create_user_login_activity(sender, instance, created, **kwargs):
     """
-    Automatically create a 'UserLoginActivity' instance associated to the 'User' when a new 'User' instance is created.
+    Create a 'UserLoginActivity' instance associated to the 'User' when a new 'User' instance is created.
     """
 
     if created:
@@ -19,7 +19,7 @@ def create_user_login_activity(sender, instance, created, **kwargs):
 @receiver(user_logged_in)
 def alert_different_ip(sender, request, user, **kwargs):
     """
-    Automatically store the last IP that accessed the platform for a certain user,
+    Store the last IP that accessed the platform for a certain user,
     in order to show a warning message when this is different from the previous one.
     """
 

@@ -1,12 +1,12 @@
-<!-- User list page -->
+<!-- User profile page -->
 {% extends 'base.html' %}
 
 <!-- Dynamic title -->
-{% block head_title %}Users | {{ block.super }}{% endblock %}
+{% block head_title %}@{{ user }} | {{ block.super }}{% endblock %}
 
 {% block content %}
   <div class="row justify-content-center">
-    <!-- Header user profile -->
+    <!-- User's profile -->
     <div class="col-11 col-lg-3 mt-3">
       <div class="card bg-platinum">
         <div class="card-body">
@@ -31,10 +31,14 @@
                 <div class="col-lg-3 col-12">
                   <div class="row">
                     <div class="col-12">
-                      <button type="button" class="btn btn-md btn-outline-info btn-block" data-toggle="popover" data-placement="bottom" data-content="<a href='https://ropsten.etherscan.io/tx/{{ post.tx_id }}'>{{ post.tx_id }}</a>">Tx ID</button>
+                      <button type="button" class="btn btn-md btn-outline-info btn-block" data-toggle="popover" data-placement="bottom" data-content="<a href='https://ropsten.etherscan.io/tx/{{ post.tx_id }}'>{{ post.tx_id }}</a>">
+                        Tx ID
+                      </button>
                     </div>
                     <div class="col-12 my-2">
-                      <button type="button" class="btn btn-md btn-outline-info btn-block" data-toggle="popover" data-placement="bottom" data-content="{{ post.hash }}">Hash</button>
+                      <button type="button" class="btn btn-md btn-outline-info btn-block" data-toggle="popover" data-placement="bottom" data-content="{{ post.hash }}">
+                        Hash
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -52,9 +56,10 @@
 {% endblock %}
 
 {% block script %}
+  <!-- Enable popovers -->
   <script>
-      $(document).ready(function(){
-        $('[data-toggle="popover"]').popover({html:true})
-        });
+    $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({html:true})
+    });
   </script>
 {% endblock %}

@@ -14,15 +14,15 @@ from rest_framework import generics
 @permission_classes([IsAuthenticated])
 def posts(request):
     """
-    Allowed methods: GET.
-    Retrieve a list of all 'Post' instances
-    or retrieve the number of posts that contain a keyword passed as 'search' parameter.
+    A view function that provides 'list()' and 'retrieve()' actions.
+    Retrieve a list of all 'Post' instances or
+    retrieve the number of posts that contain a keyword passed as 'search' parameter.
 
     * Only authenticated users can retrieve data.
     """
 
     if 'search' in request.GET:
-        # URL contains 'search'
+        # Retrieve action
         querystring = request.GET.get('search')
         if len(querystring) == 0:
             context = {
@@ -35,6 +35,7 @@ def posts(request):
         }
         return Response(context, status=status.HTTP_200_OK)
     else:
+        # List action
         post_list = Post.objects.all().order_by('-id')
         serializer = PostModelSerializer(post_list, many=True)
         posts_api_view_called.send(sender='posts', request=request)  # Send signal in order to register user's activity
@@ -45,7 +46,7 @@ def posts(request):
 @permission_classes([IsAuthenticated])
 def new_post(request):
     """
-    Allowed methods: POST.
+    A view function that provides 'create()' action.
     Create a new 'Post' instance with received data.
 
     * Only authenticated users can create new 'Post' instances.
@@ -73,5 +74,5 @@ class LatestPostListAPIView(generics.ListAPIView):
         """
 
         last_hour = timezone.now() - timedelta(hours=1)
-        queryset = Post.objects.filter(datetime__gte=last_hour).order_by('-datetime')
+        queryset = Post.objects.filter(datetime__gte=last_hour)
         return queryset

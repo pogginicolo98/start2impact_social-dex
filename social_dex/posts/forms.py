@@ -4,17 +4,17 @@ from posts.models import Post
 
 class PostModelForm(forms.ModelForm):
     """
-    A form class for new 'Post'.
+    A form class for create new 'Post'.
 
     validations:
-    - content: Prohibits the publication of any post that contains the word 'hack'.
+    - content: The word 'hack' is forbidden.
     """
 
     class Meta:
         model = Post
         fields = ['content']
         widgets = {
-            'content': forms.Textarea(attrs={'placeholder': 'What are you thinking about?', 'rows': 5})
+            'content': forms.Textarea(attrs={'placeholder': 'Write your post on the blockchain...', 'rows': 5})
         }
         labels = {
             'content': False

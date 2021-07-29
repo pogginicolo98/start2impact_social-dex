@@ -15,15 +15,21 @@ class UserLoginActivity(BaseModel):
     """
     Users login activity tacker.
     Extension of the 'User' model.
-    A report that tracks the last IP used by each user.
+    Store the last IP used by each user.
 
     fields:
     - user: Each 'User' corresponds to one and only one 'UserLoginActivity'.
+    - alert: Used in order to display a waring banner if the last_login_IP != current IP.
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     last_login_IP = models.GenericIPAddressField(blank=True, null=True)
     alert = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Last IP'
+        verbose_name_plural = 'Latest IP'
+        ordering = ['user']
 
     def __str__(self):
         return self.user.username

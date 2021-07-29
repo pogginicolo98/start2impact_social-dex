@@ -7,7 +7,7 @@ class PostModelSerializer(serializers.ModelSerializer):
     ModelSerializer for 'Post' instance.
 
     validations:
-    - content: Prohibits the publication of any post that contains the word 'hack'.
+    - content: The word 'hack' is forbidden.
     """
 
     user = serializers.StringRelatedField()
@@ -18,5 +18,5 @@ class PostModelSerializer(serializers.ModelSerializer):
 
     def validate_content(self, value):
         if "hack" in value.lower():
-            raise serializers.ValidationError("forbidden word: 'hack'")
+            raise serializers.ValidationError("Forbidden word: 'hack'")
         return value

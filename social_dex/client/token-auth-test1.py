@@ -5,7 +5,7 @@ from sys import path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 path.insert(0, str(BASE_DIR))
-from social_dex import password
+import password
 
 
 def client():

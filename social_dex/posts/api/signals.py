@@ -9,36 +9,34 @@ new_post_api_view_called = Signal(providing_args=['request'])
 
 def posts_api_view_called_handler(sender, request, **kwargs):
     """
-    Automatically register on Redis the call of the view function 'posts()' by the user.
+    Log on Redis the user's activity when accessing the view function 'posts()'.
 
     Data format on Redis:
-    - List
-    - Key: dd-mm-YYYY
-    - Values: HH:MM:SS - user has retrieved a posts list
+    - Type: List.
+    - Key: dd-mm-YYYY.
+    - Values: HH:MM:SS - user has retrieved a posts list.
     """
 
     redis_client = Redis('localhost', port=6379)
-    redis_client.lpush(
-        datetime.now().strftime('%d/%m/%Y'),
-        f"{datetime.now().strftime('%H:%M:%S')} - {request.user} has retrieved a posts list"
-    )
+    key = datetime.now().strftime('%d/%m/%Y')
+    value = f"{datetime.now().strftime('%H:%M:%S')} - {request.user} has retrieved a posts list"
+    redis_client.lpush(key, value)
 
 
 def new_post_api_view_handler(sender, request, **kwargs):
     """
-    Automatically register on Redis the call of the view function 'new_post()' by the user.
+    Log on Redis the user's activity when accessing the view function 'new_post()'.
 
     Data format on Redis:
-    - List
-    - Key: dd-mm-YYYY
-    - Values: HH:MM:SS - user has created a new post
+    - Type: List.
+    - Key: dd-mm-YYYY.
+    - Values: HH:MM:SS - user has created a new post.
     """
 
     redis_client = Redis('localhost', port=6379)
-    redis_client.lpush(
-        datetime.now().strftime('%d/%m/%Y'),
-        f"{datetime.now().strftime('%H:%M:%S')} - {request.user} has created a new post"
-    )
+    key = datetime.now().strftime('%d/%m/%Y')
+    value = f"{datetime.now().strftime('%H:%M:%S')} - {request.user} has created a new post"
+    redis_client.lpush(key, value)
 
 
 # Connecting custom signals for views: posts() and new_post()

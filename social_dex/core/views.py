@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 
 class UserListView(StaffMixin, ListView):
     """
-    User view that display a list of all users and the amount of posts created by each user.
+    User list view that display a list of all users and the amount of post created by each user.
 
     * Only staff users can view the user list.
     """
@@ -18,7 +18,7 @@ class UserListView(StaffMixin, ListView):
 
 class UserDetailView(DetailView):
     """
-    User view that display user's profile information.
+    User detail view that display user's profile information.
     """
 
     model = User

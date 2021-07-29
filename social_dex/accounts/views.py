@@ -1,11 +1,13 @@
 from accounts.forms import SignUpForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, render
 
 
 def signup_view(request):
-    # Function for sign up new users
+    """
+    View function for sign up new users.
+    """
 
     if request.method == 'POST':
         print(request.POST)
@@ -18,8 +20,8 @@ def signup_view(request):
             password = form.cleaned_data['password1']
             User.objects.create_user(
                 username=username,
+                email=email,
                 password=password,
-                email=email
             )
             user = authenticate(username=username, password=password)
             login(request, user)
