@@ -8,11 +8,11 @@ from redis import Redis
 @shared_task
 def users_activity_report():
     """
-    Collects previous day reports from Redis then
+    Collects previous day logs from Redis then
     aggregates them into a single report on Sqlite.
 
     Data on Redis:
-    - list: dd-mm-YYYY[HH:MM:SS - Mario has created a new post, HH:MM:SS - Luigi has retrieved a posts list, ...]
+    - dd-mm-YYYY: [HH:MM:SS - Mario has created a new post, HH:MM:SS - Luigi has retrieved a posts list, ...]
 
     Data on Sqlite:
     - date: YYYY-mm-dd
@@ -27,7 +27,7 @@ def users_activity_report():
     redis_client = Redis('localhost', port=6379)
     redis_key = redis_client.lrange(list_name, 0, -1)
 
-    # Collects previous day reports from Redis
+    # Collects previous day logs from Redis
     for redis_value in redis_key:
         record = redis_value.decode()  # Ex. 'HH:MM:SS - Mario has created a new post'
         user = record.split(' ')[2]
@@ -41,7 +41,7 @@ def users_activity_report():
         elif 'has created a new post' in record:
             redis_reports[user]['new-post'] += 1
 
-    # Aggregates reports into a single report in order to store it on Sqlite.
+    # Aggregates logs into a single report stored on Sqlite.
     redis_users = list(redis_reports)
     for redis_user in redis_users:
         user = User.objects.get(username=redis_user)

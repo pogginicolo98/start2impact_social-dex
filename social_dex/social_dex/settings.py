@@ -183,6 +183,6 @@ CELERY_TIMEZONE = TIME_ZONE
 CELERY_BEAT_SCHEDULE = {
  'users-activity-report': {
        'task': 'posts.api.tasks.users_activity_report',
-       'schedule': crontab(minute=10, hour=0),  # Executed once a day at 00:05
+       'schedule': crontab(minute=5, hour=0),  # Executed once a day at 00:05
     }
 }

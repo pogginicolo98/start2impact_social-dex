@@ -2,13 +2,13 @@
 {% load static %}
 
 <!doctype html>
-<html lang="it">
+<html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <!-- Fonts -->
@@ -22,6 +22,7 @@
     <link rel="shortcut icon" type="image/jpg" href="https://img.icons8.com/bubbles/50/000000/blockchain-technology.png"/>
   </head>
   <body class="bg-baby-powder">
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-erie-black sticky-top">
       <div class="container">
@@ -35,16 +36,20 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
+            <!-- User list -->
             {% if request.user.is_staff %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'user-list' %}">Users</a>
               </li>
             {% endif %}
+
+            <!-- User profile -->
             {% if request.user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'user-detail' pk=request.user.id %}">Profile</a>
               </li>
             {% endif %}
+
             <!-- Dropdown menu with change password and logout features -->
             {% if request.user.is_authenticated %}
               <li class="nav-item dropdown">
@@ -58,8 +63,8 @@
                 </div>
               </li>
 
+            <!-- Sign up and login -->
             {% else %}
-              <!-- Sign up and login -->
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'signup_view' %}">Sign Up</a>
               </li>
@@ -72,8 +77,8 @@
       </div>
     </nav>
 
-    <!-- Different IP alert -->
     <div class="container">
+      <!-- Different IP alert -->
       {% if request.user.userloginactivity.alert %}
         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
           <strong>Alert:</strong> Your current IP is different from your last login!

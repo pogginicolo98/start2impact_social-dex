@@ -44,7 +44,7 @@ class Post(BaseModel):
 
 class PostReport(BaseModel):
     """
-    Users activity report.
+    Users activity logger.
     A report that tracks how many times a user retrieves a list of all instances of "Post"
     and how many 'Posts' he created.
     The report is made once a day.
