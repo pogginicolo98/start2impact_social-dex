@@ -144,7 +144,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = [BASE_DIR / 'static-storage']
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR.parent, 'media-serve')
+STATIC_ROOT = os.path.join(BASE_DIR.parent, 'static-serve')
 
 
 # Default primary key field type
