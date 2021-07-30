@@ -20,7 +20,7 @@ The web-app also integrates a filter for posts containing the word 'hack', perfo
 
 <hr>
 
-Main frameworks and technologies used:
+Frameworks and technologies used:
 
 Frameworks
 - [Django](https://docs.djangoproject.com/en/3.2/) - Main back-end
