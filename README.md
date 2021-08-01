@@ -63,9 +63,9 @@ start2impact_social-dex/redis-6.2.5$ sudo make test
 Run Redis in then background using ```$ screen``` then press ```ENTER```, then ```start2impact_social-dex/redis-6.2.5$ src/redis-server```, then press ```CTRL+A``` and finally press ```D```. (These commands must be executed every time the server is restarted)
 
 #### Setup and test django project:
-First populate ```/start2impact_social-dex/setup/password_empty.py``` with your keys.
+First of all populate ```start2impact_social-dex/setup/password_empty.py``` with your keys.
 ```
-start2impact_social-dex$ mv setup/password_empty.py social_dex/
+start2impact_social-dex$ mv setup/password_empty.py social_dex/password.py
 (venv) start2impact_social-dex/social_dex$ python manage.py runserver
 (venv) start2impact_social-dex/social_dex$ python manage.py makemigrations
 (venv) start2impact_social-dex/social_dex$ python manage.py migrate
