@@ -22,13 +22,13 @@ The web-app also integrates a filter for posts containing the word 'hack', perfo
 
 ## Frameworks and technologies used:
 #### Frameworks
-- [Django](https://docs.djangoproject.com/en/3.2/) - Main back-end
+- [Django](https://docs.djangoproject.com/en/3.2/) - Back-end
 - [Django REST Framework](https://www.django-rest-framework.org/) - APIs
-- [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) - Main front-end
+- [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/) - Front-end
 
 #### Databases
-- [SQLite](https://sqlite.org/docs.html) - Main storage
-- [Redis](https://redis.io/documentation) - Daily logs
+- [SQLite](https://sqlite.org/docs.html) - Storage and web-app structure
+- [Redis](https://redis.io/documentation) - Temporary logs
 
 #### Technologies
 - [Celery](https://docs.celeryproject.org/en/stable/#) - Scheduled tasks
