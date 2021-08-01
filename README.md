@@ -1,5 +1,5 @@
 # Start2Impact Django&Redis project: Blockchain bulletin board
-Online bulletin board that writes posts on the Ropesten network blockchain.
+Online bulletin board that writes posts on the Ropsten network blockchain.
 The web-app provides a user interface and API endpoints with the following features:
 
 #### User interface
