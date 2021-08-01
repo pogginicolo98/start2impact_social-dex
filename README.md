@@ -9,12 +9,12 @@ The web-app provides a user interface and API endpoints with the following featu
 4) User list and statistics (Administrators only).
 
 #### API endpoints
-1) /api/rest-auth/registration/ : User registration via token.
-2) /api/rest-auth/login/ : Authentication via token.
-3) /api/new-post/ : Create a new post.
-4) /api/posts/ : Retrieve all posts written by users.
-5) /api/posts/?search=word_to_search_for : Retrieve the number of posts that contain a certain word.
-6) /api/posts/latest/ : Retrieve all posts published in the last hour.
+1) ```/api/rest-auth/registration/```: User registration via token.
+2) ```/api/rest-auth/login/```: Authentication via token.
+3) ```/api/new-post/```: Create a new post.
+4) ```/api/posts/```: Retrieve all posts written by users.
+5) ```/api/posts/?search=word_to_search_for```: Retrieve the number of posts that contain a certain word.
+6) ```/api/posts/latest/```: Retrieve all posts published in the last hour.
 
 The web-app also integrates a filter for posts containing the word 'hack', performs a daily report logging the use of endpoints by users and keeps track of the last IP with which users logged in to notify if it is different from the previous one.
 
