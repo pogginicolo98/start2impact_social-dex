@@ -18,7 +18,7 @@ The web-app provides a user interface and API endpoints with the following featu
 
 The web-app also integrates a filter for posts containing the word 'hack', performs a daily report logging the use of endpoints by users and keeps track of the last IP with which users logged in to notify if it is different from the previous one.
 
-#### Live demo: [SocialDex](http://13.36.123.111/)
+#### Live demo: [SocialDex](#) (Temporarily not available)
 
 ## Frameworks and technologies used:
 #### Frameworks
