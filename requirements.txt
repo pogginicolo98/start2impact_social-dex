@@ -7,7 +7,7 @@ base58==2.1.0
 billiard==3.6.4.0
 bitarray==1.2.2
 celery==5.1.2
-certifi==2021.5.30
+certifi==2022.12.7
 cffi==1.14.6
 chardet==4.0.0
 click==7.1.2
